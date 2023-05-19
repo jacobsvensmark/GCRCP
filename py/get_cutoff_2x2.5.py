@@ -1,45 +1,9 @@
-import numpy as np
+iport numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt
 from PLOT_utils import centergrid
 
-nlon=144
-nlat=91
-lat_lower = -85
-lat_higher = 85
-delta = 5
-magneticfield="present_"
-
-lon_arr = np.array([   -180.000,-177.500,-175.000,-172.500,-170.000,-167.500,-165.000,-162.500,  
-                       -160.000,-157.500,-155.000,-152.500,-150.000,-147.500,-145.000,-142.500,
-                       -140.000,-137.500,-135.000,-132.500,-130.000,-127.500,-125.000,-122.500,
-                       -120.000,-117.500,-115.000,-112.500,-110.000,-107.500,-105.000,-102.500,
-                       -100.000, -97.500, -95.000, -92.500, -90.000, -87.500, -85.000, -82.500,
-                        -80.000, -77.500, -75.000, -72.500, -70.000, -67.500, -65.000, -62.500,
-                        -60.000, -57.500, -55.000, -52.500, -50.000, -47.500, -45.000, -42.500,
-                        -40.000, -37.500, -35.000, -32.500, -30.000, -27.500, -25.000, -22.500,
-                        -20.000, -17.500, -15.000, -12.500, -10.000,  -7.500,  -5.000,  -2.500,
-                          0.000,   2.500,   5.000,   7.500,  10.000,  12.500,  15.000,  17.500,
-                         20.000,  22.500,  25.000,  27.500,  30.000,  32.500,  35.000,  37.500,
-                         40.000,  42.500,  45.000,  47.500,  50.000,  52.500,  55.000,  57.500,
-                         60.000,  62.500,  65.000,  67.500,  70.000,  72.500,  75.000,  77.500,
-                         80.000,  82.500,  85.000,  87.500,  90.000,  92.500,  95.000,  97.500,
-                        100.000, 102.500, 105.000, 107.500, 110.000, 112.500, 115.000, 117.500,
-                        120.000, 122.500, 125.000, 127.500, 130.000, 132.500, 135.000, 137.500,
-                        140.000, 142.500, 145.000, 147.500, 150.000, 152.500, 155.000, 157.500,
-                        160.000, 162.500, 165.000, 167.500, 170.000, 172.500, 175.000, 177.500   ])
-lat_arr = np.array([ -89.500, -88.000, -86.000, -84.000, -82.000, -80.000, -78.000, -76.000,
-                     -74.000, -72.000, -70.000, -68.000, -66.000, -64.000, -62.000, -60.000,
-                     -58.000, -56.000, -54.000, -52.000, -50.000, -48.000, -46.000, -44.000,
-                     -42.000, -40.000, -38.000, -36.000, -34.000, -32.000, -30.000, -28.000,
-                     -26.000, -24.000, -22.000, -20.000, -18.000, -16.000, -14.000, -12.000,
-                     -10.000,  -8.000,  -6.000,  -4.000,  -2.000,   0.000,   2.000,   4.000,
-                       6.000,   8.000,  10.000,  12.000,  14.000,  16.000,  18.000,  20.000,
-                      22.000,  24.000,  26.000,  28.000,  30.000,  32.000,  34.000,  36.000,
-                      38.000,  40.000,  42.000,  44.000,  46.000,  48.000,  50.000,  52.000,
-                      54.000,  56.000,  58.000,  60.000,  62.000,  64.000,  66.000,  68.000,
-                      70.000,  72.000,  74.000,  76.000,  78.000,  80.000,  82.000,  84.000,
-                      86.000,  88.000,  89.500 ] )
+magneticfield="present"
 
 lat_array_str=(  "-89.50"  ,"-88.00", "-86.00", "-84.00", "-82.00", "-80.00", "-78.00", "-76.00",
            "-74.00"  ,"-72.00", "-70.00", "-68.00", "-66.00", "-64.00", "-62.00", "-60.00", 
@@ -73,105 +37,65 @@ lon_array_str=("-180.00","-177.50","-175.00","-172.50","-170.00","-167.50","-165
                "140.00","142.50","145.00","147.50","150.00","152.50","155.00","157.50",
                "160.00","162.50","165.00","167.50","170.00","172.50","175.00","177.50")
 
-#lon_array_str=("-180.00","-177.50","-175.00","-172.50","-170.00","-167.50","-165.00","-162.50", 
-#               "-160.00","-157.50","-155.00","-152.50","-150.00","-147.50","-145.00","-142.50",
-#               "-140.00","-137.50","-135.00","-132.50","-130.00","-127.50","-125.00","-122.50",
-#               "-120.00","-117.50","-115.00","-112.50","-110.00","-107.50","-105.00","-102.50",
-#               "-100.00"," -97.50"," -95.00"," -92.50"," -90.00"," -87.50"," -85.00"," -82.50",
-#               " -80.00"," -77.50"," -75.00"," -72.50"," -70.00"," -67.50"," -65.00"," -62.50",
-#               " -60.00"," -57.50"," -55.00"," -52.50"," -50.00"," -47.50"," -45.00"," -42.50",
-#               " -40.00"," -37.50"," -35.00"," -32.50"," -30.00"," -27.50"," -25.00"," -22.50",
-#               " -20.00"," -17.50"," -15.00"," -12.50"," -10.00","  -7.50","  -5.00","  -2.50",
-#               "   0.00","   2.50","   5.00","   7.50","  10.00","  12.50","  15.00","  17.50",
-#               "  20.00","  22.50","  25.00","  27.50","  30.00","  32.50","  35.00","  37.50",
-#               "  40.00","  42.50","  45.00","  47.50","  50.00","  52.50","  55.00","  57.50",
-#               "  60.00","  62.50","  65.00","  67.50","  70.00","  72.50","  75.00","  77.50",
-#               "  80.00","  82.50","  85.00","  87.50","  90.00","  92.50","  95.00","  97.50",
-#               " 100.00"," 102.50"," 105.00"," 107.50"," 110.00"," 112.50"," 115.00"," 117.50",
-#               " 120.00"," 122.50"," 125.00"," 127.50"," 130.00"," 132.50"," 135.00"," 137.50",
-#               " 140.00"," 142.50"," 145.00"," 147.50"," 150.00"," 152.50"," 155.00"," 157.50",
-#               " 160.00"," 162.50"," 165.00"," 167.50"," 170.00"," 172.50"," 175.00"," 177.50")
+cutoff = np.empty([4,nlat,nlon])
+cutoff[:] = np.nan
+for lat_idx,lat in enumerate(lat_array_str):
+    print(lat)
+    for lon_idx,lon in enumerate(lon_array_str):
+        filename = "../dat/2x2.5_grid_model_output/"+magneticfield +'_VERTICAL_lat_'+ lat + '_lon_'+lon+'.txt'
+        try:
+            df = pd.read_table(filename,header=None, delimiter=r"\s+")
+        except:
+            print("Rigidity file for latitude {} not found at {}".format(lat,filename))
+            cutoff[:,lat_idx,:] = np.nan
+            continue
+        df.columns = ['lat','lon','E','az_or_zen','zen_or_az','unknown1','unknown2','unknown3','unknown4','allowed','unknown5']
+        df_cut = df[df["lon"]==float(lon)]
+        a = df_cut['allowed'].values
+        b = a.astype(int)
+        if len(b) == 0: # Data point missing
+            cutoff[0,lat_idx,lon_idx] = np.nan
+            cutoff[1,lat_idx,lon_idx] = np.nan
+            cutoff[2,lat_idx,lon_idx] = np.nan
+            cutoff[3,lat_idx,lon_idx] = 5 
+        elif np.count_nonzero(b) == 0: # Penumbra not reached at lowest energy
+            cutoff[0,lat_idx,lon_idx] = np.nan
+            cutoff[1,lat_idx,lon_idx] = np.nan
+            cutoff[2,lat_idx,lon_idx] = df_cut['E'].values[-1]
+            cutoff[3,lat_idx,lon_idx] = 1
+        elif np.count_nonzero(b) == len(b): # Penumbra starts before highest energy sampeled
+            cutoff[0,lat_idx,lon_idx] = np.nan
+            cutoff[1,lat_idx,lon_idx] = np.nan
+            cutoff[2,lat_idx,lon_idx] = df_cut['E'].values[0]
+            cutoff[3,lat_idx,lon_idx] = 4
+        else:
+            b[b>1] = 1
+            idx1 = np.nonzero(b==1)[0][0] 
+            idx2 = np.nonzero(b==0)[0][-1]
+            if (idx2 == len(b)-1): # Penumbra stretches into lowest energy
+               cutoff[0,lat_idx,lon_idx] = df_cut['E'].values[idx1]
+               cutoff[1,lat_idx,lon_idx] = df_cut['E'].values[idx2]
+               cutoff[2,lat_idx,lon_idx] = (cutoff[0,lat_idx,lon_idx]+cutoff[1,lat_idx,lon_idx])/2.0
+               cutoff[3,lat_idx,lon_idx] = 2
+            elif (idx1-1 == idx2): # Penumbra has 0 width
+               cutoff[0,lat_idx,lon_idx] = df_cut['E'].values[idx1]
+               cutoff[1,lat_idx,lon_idx] = df_cut['E'].values[idx2]
+               cutoff[2,lat_idx,lon_idx] = (cutoff[0,lat_idx,lon_idx]+cutoff[1,lat_idx,lon_idx])/2.0
+               cutoff[3,lat_idx,lon_idx] = 3
+            else:
+               cutoff[0,lat_idx,lon_idx] = df_cut['E'].values[idx1]
+               cutoff[1,lat_idx,lon_idx] = df_cut['E'].values[idx2]
+               cutoff[2,lat_idx,lon_idx] = (cutoff[0,lat_idx,lon_idx]+cutoff[1,lat_idx,lon_idx])/2.0
+               cutoff[3,lat_idx,lon_idx] = 0
 
-#    magneticfield = "reversal_T"+magtime+"_"
-for x in range(0,1):    
-    # 1 lvl
-    directions = ["VERTICAL"]
-    lvls = '1lvl'
-    
-    # For the fourth array, the numbers mean the following:
-    # 1: No unallowed paths found
-    # 2: 
-    #if magneticfield != "pres_B_":
-    #    lvls_append = '_reversal'
-    #:else:
-    lvls_append = ''
-    for direction in directions:
-        file_prefix = magneticfield + direction
-        cutoff = np.empty([4,nlat,nlon])
-        cutoff[:] = np.nan
-        for lat_idx,lat in enumerate(lat_array_str):
-            print(lat)
-            for lon_idx,lon in enumerate(lon_array_str):
-                filename = "../dat/2x2.5_grid_model_output/"+file_prefix +'_lat_'+ lat + '_lon_'+lon+'.txt'
-                try:
-                    df = pd.read_table(filename,header=None, delimiter=r"\s+")
-                except:
-                    print("Rigidity file for latitude {} not found at {}".format(lat,filename))
-                    cutoff[:,lat_idx,:] = np.nan
-                    continue
-                df.columns = ['lat','lon','E','az_or_zen','zen_or_az','unknown1','unknown2','unknown3','unknown4','allowed','unknown5']
-                df_cut = df[df["lon"]==float(lon)]
-                a = df_cut['allowed'].values
-                b = a.astype(int)
-                if len(b) == 0: # Data point missing
-                    cutoff[0,lat_idx,lon_idx] = np.nan
-                    cutoff[1,lat_idx,lon_idx] = np.nan
-                    cutoff[2,lat_idx,lon_idx] = np.nan
-                    cutoff[3,lat_idx,lon_idx] = 5 
-                elif np.count_nonzero(b) == 0: # Penumbra not reached at lowest energy
-                    cutoff[0,lat_idx,lon_idx] = np.nan
-                    cutoff[1,lat_idx,lon_idx] = np.nan
-                    cutoff[2,lat_idx,lon_idx] = df_cut['E'].values[-1]
-                    cutoff[3,lat_idx,lon_idx] = 1
-                elif np.count_nonzero(b) == len(b): # Penumbra starts before highest energy sampeled
-                    cutoff[0,lat_idx,lon_idx] = np.nan
-                    cutoff[1,lat_idx,lon_idx] = np.nan
-                    cutoff[2,lat_idx,lon_idx] = df_cut['E'].values[0]
-                    cutoff[3,lat_idx,lon_idx] = 4
-                else:
-                    b[b>1] = 1
-                    idx1 = np.nonzero(b==1)[0][0] 
-                    idx2 = np.nonzero(b==0)[0][-1]
-                    if (idx2 == len(b)-1): # Penumbra stretches into lowest energy
-                       cutoff[0,lat_idx,lon_idx] = df_cut['E'].values[idx1]
-                       cutoff[1,lat_idx,lon_idx] = df_cut['E'].values[idx2]
-                       cutoff[2,lat_idx,lon_idx] = (cutoff[0,lat_idx,lon_idx]+cutoff[1,lat_idx,lon_idx])/2.0
-                       cutoff[3,lat_idx,lon_idx] = 2
-                    elif (idx1-1 == idx2): # Penumbra has 0 width
-                       cutoff[0,lat_idx,lon_idx] = df_cut['E'].values[idx1]
-                       cutoff[1,lat_idx,lon_idx] = df_cut['E'].values[idx2]
-                       cutoff[2,lat_idx,lon_idx] = (cutoff[0,lat_idx,lon_idx]+cutoff[1,lat_idx,lon_idx])/2.0
-                       cutoff[3,lat_idx,lon_idx] = 3
-                    else:
-                       cutoff[0,lat_idx,lon_idx] = df_cut['E'].values[idx1]
-                       cutoff[1,lat_idx,lon_idx] = df_cut['E'].values[idx2]
-                       cutoff[2,lat_idx,lon_idx] = (cutoff[0,lat_idx,lon_idx]+cutoff[1,lat_idx,lon_idx])/2.0
-                       cutoff[3,lat_idx,lon_idx] = 0
-        
-        #xlist = centergrid(lon_arr)
-        #ylist = centergrid(lat_arr)
-        #plt.pcolormesh(lon_arr,lat_arr,cutoff[2,:,:])
-        #plt.colorbar(label='Energy in GeV?? Or is it Rigidity in GV?')
-        #plt.show()
-        
-        import csv
-        
-        with open("../dat/"+file_prefix+"_rigidity_2x2.5_individ_new.csv","w+") as my_csv:
-            csvWriter = csv.writer(my_csv,delimiter=',')
-            csvWriter.writerows(cutoff[2,:,:])
-        
-        with open("../dat/"+file_prefix+"_penumbra_info_2x2.5_individ_new.csv","w+") as my_csv:
-            csvWriter = csv.writer(my_csv,delimiter=',')
-            csvWriter.writerows(cutoff[3,:,:])
-    
+import csv
+
+with open("../dat/"+magneticfield+"_rigidity_2x2.5.csv","w+") as my_csv:
+    csvWriter = csv.writer(my_csv,delimiter=',')
+    csvWriter.writerows(cutoff[2,:,:])
+
+with open("../dat/"+magneticfield+"_penumbra_info_2x2.5.csv","w+") as my_csv:
+    csvWriter = csv.writer(my_csv,delimiter=',')
+    csvWriter.writerows(cutoff[3,:,:])
+
 print("done") 
