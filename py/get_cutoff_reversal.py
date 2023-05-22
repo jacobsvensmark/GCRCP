@@ -3,18 +3,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from PLOT_utils import centergrid
 
-nlon=72
-nlat=37
-lat_lower = -85
-lat_higher = 85
-delta = 5
-magneticfield="T"
 
+delta = 5
 lon_arr = np.arange(-180,180,delta)
 lat_arr = np.arange(-90,95,delta)
-file_prefix = magneticfield
-cutoff = np.empty([4,37,72])
+nlon = len(lon_arr)
+nlat = len(lat_arr)
+cutoff = np.empty([4,nlat,nlon])
 cutoff[:] = np.nan
+
+magneticfield="T"
+file_prefix = magneticfield
 
 #time_arr=["766.958496","771.506653","773.321350","774.515259","775.504517","779.465942","782.647339","783.786682","787.197754"]
 

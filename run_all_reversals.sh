@@ -11,19 +11,18 @@ declare infile
 declare outfile
 declare outfile_prefix
 declare -i njob=0
-declare -i nmax=27
+declare -i nmax=30
 declare -i njobs=1
 
 lat_min=-85
 lat_max=85
 delta=5
-inputfile_root="TAPE1"
+inputfile_root="input_tapes/TAPE1"
 original_lat="XYZAB"
-dummy_input="TAPE1_dummy_lat_5x5_vertical"
+dummy_input="tape_templates/TAPE1_dummy_lat_5x5_vertical"
 executable="tji95_reversal.out"
 magneticfield="reversal"
 ddir="vert"
-#declare -a time_arr=("766.958496" "771.506653" "773.321350" "774.515259" "775.504517" "779.465942" "782.647339" "783.786682" "787.197754")
 declare -a time_arr=("794.474792" "794.247437" "794.020020" "793.792603" "793.565186" "793.337769" "793.110352" 
                      "792.882935" "792.655579" "792.428162" "792.200745" "791.973328" "791.745911" "791.518494" 
 		     "791.291138" "791.063721" "790.836304" "790.608887" "790.381470" "790.379211" "790.154053" 
@@ -81,9 +80,6 @@ SECONDS=0
 for time in "${time_arr[@]}"; do
     # Put $time into "time_target.txt" file, which serves as input to the job run below
     magneticfield_str="T"$time 
-    echo -n "" > file.log
-    echo -n "$time" > time_target.txt
-    echo $time
      
     outfile_prefix="/mnt/sdb/jsv/big_data/ionization_project/rig_files/"$magneticfield_str"_"$ddir"_lat_"
     for lat in $(seq $lat_min $delta $lat_max); do
@@ -101,15 +97,16 @@ for time in "${time_arr[@]}"; do
  
 	# Replace lat in dummy inputfile and make new file
         search_string="%s/"$original_lat"/"$new"/g|x"
-        infile=$inputfile_root"_lat_"$lat"_"$ddir 
+        infile=$inputfile_root"_lat_"$lat"_"$time"_"$ddir 
         cp $dummy_input $infile               
         ex -s -c "$search_string" $infile     
                                               
         # Generate output filename
         outfile=$outfile_prefix$lat".txt"
+        logfile="logs/"$magneticfield_str"_"$ddir"_lat_"
         #echo -n $outfile >> file.log
         # Run model
-        ./$executable $outfile $infile >> file.log & 
+        ./$executable $outfile $infile >> $logfile & 
         let njob++
         duration=$SECONDS
 	echo "Running job #("$njob"/"$njobs") for lat="$lat". Output: "$outfile". Elapsed time: $(($duration / 3600)) hours, $((($duration%3600)/60)) minutes. Estimated time left: $((($njobs-$njob)/$njob*$duration/3600)) hours, $((((($njobs-$njob)/$njob*$duration)%3600)/60)) minutes."
